@@ -1,9 +1,9 @@
-name: CI
+name: CI - Dev Flow
 
 on:
   push:
     branches:
-      - dev
+      - develop
 env:
   IMAGE_NAME: node-dev
   
