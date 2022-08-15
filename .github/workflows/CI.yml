@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  IMAGE_NAME: examplenode-dev
+  IMAGE_NAME: node-prod
   
 jobs:
   build:
