@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - dev
+env:
+  IMAGE_NAME: node-dev
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN1 }}
+        
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.PAT }}
+        repository: ${{ github.actor }}/argocd-node-app-config-dev
+        event-type: new-image
+        client-payload: '{"image": "${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
