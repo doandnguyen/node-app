@@ -1,4 +1,4 @@
-name: CI
+name: CI Develop
 
 on:
   push:
@@ -33,4 +33,4 @@ jobs:
         token: ${{ secrets.PAT }}
         repository: ${{ github.actor }}/argocd-node-app-config-dev
         event-type: new-image-dev
-        client-payload: '{"image": "${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
+        client-payload: '{"tag": "${{ github.run_number }}"}'
